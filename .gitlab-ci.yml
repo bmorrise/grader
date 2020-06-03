@@ -1,6 +1,9 @@
 image: maven:3.3-jdk-8
 
 variables:
+  FRONTEND_CONTAINER_IMAGE: bmorrise/frontend:${CI_BUILD_REF_NAME}_${CI_BUILD_REF}
+  FRONTEND_CONTAINER_IMAGE_LATEST: bmorrise/frontend:latest
+
   CONTAINER_IMAGE: bmorrise/${CI_PROJECT_NAME}:${CI_BUILD_REF_NAME}_${CI_BUILD_REF}
   CONTAINER_IMAGE_LATEST: bmorrise/${CI_PROJECT_NAME}:latest
 
@@ -17,8 +20,9 @@ build_image:
   stage: build_image
   image: docker:19
   before_script:
-    - echo ${CONTAINER_IMAGE}
+    - echo ${FRONTEND_CONTAINER_IMAGE}
     - echo -n $DOCKER_HUB_TOKEN | docker login -u bmorrise --password-stdin
   script:
-    - docker build -t ${CONTAINER_IMAGE} .
-    - docker push ${CONTAINER_IMAGE}
+    - cd frontend
+    - docker build -t ${FRONTEND_CONTAINER_IMAGE} .
+    - docker push ${FRONTEND_CONTAINER_IMAGE}
