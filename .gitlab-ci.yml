@@ -13,6 +13,9 @@ stages:
 
 build:
   stage: build
+  artifacts:
+    paths:
+      - frontend/target
   script:
     - mvn clean install -DskipTests
 
