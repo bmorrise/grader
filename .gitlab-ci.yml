@@ -1,0 +1,9 @@
+maven:3.3-jdk-8
+
+stages:
+  - build
+
+build:
+  stage: build
+  script:
+    - mvn clean install
