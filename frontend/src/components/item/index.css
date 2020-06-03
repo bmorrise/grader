@@ -1,0 +1,25 @@
+.panel {
+    text-align: left;
+}
+
+.panel .header {
+    display: flex;
+}
+
+.panel .header .title {
+    font-size: 2em;
+    padding: 20px;
+    flex: 1;
+}
+
+.panel .header .grade {
+    padding: 20px;
+    font-size: 2em;
+    color: #ffffff;
+    background-color: #000000;
+}
+
+.panel .body {
+    border: 1px solid #000000;
+    padding: 10px;
+}

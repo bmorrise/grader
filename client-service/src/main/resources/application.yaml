@@ -1,0 +1,19 @@
+spring:
+  application.name: client-service
+  cloud.kubernetes.reload.enabled: true
+management:
+  endpoint:
+    restart:
+      enabled: true
+    health:
+      enabled: true
+    info:
+      enabled: true
+ribbon:
+  http:
+    client:
+      enabled: true
+server:
+  port: 8080
+  servlet:
+    context-path: /api/v1

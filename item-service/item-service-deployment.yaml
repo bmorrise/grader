@@ -1,0 +1,38 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: item-service
+spec:
+  selector:
+    app: item-service
+  ports:
+  - protocol: TCP
+    port: 8080
+    nodePort: 30081
+  type: NodePort
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: item-service
+spec:
+  selector:
+    matchLabels:
+      app: item-service
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: item-service
+    spec:
+      containers:
+        - name: item-service
+          image: item-service:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8080
+          env:
+            - name: MONGODB_HOST
+              value: mongodb-service
+            - name: CONTEXT_PATH
+              value: /item-service
