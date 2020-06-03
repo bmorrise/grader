@@ -1,9 +1,24 @@
 image: maven:3.3-jdk-8
 
+variables:
+  CONTAINER_IMAGE: bmorrise/${CI_PROJECT_NAME}:${CI_BUILD_REF_NAME}_${CI_BUILD_REF}
+  CONTAINER_IMAGE_LATEST: bmorrise/${CI_PROJECT_NAME}:latest
+
 stages:
   - build
+  - build_image
 
 build:
   stage: build
   script:
-    - mvn clean install
+    - mvn clean install -DskipTests
+
+build_image:
+  stage: build_image
+  image: docker:19
+  before_script:
+    - echo ${CONTAINER_IMAGE}
+    - echo -n $DOCKER_HUB_TOKEN | docker login -u bmorrise --password-stdin
+  script:
+    - docker build -t ${CONTAINER_IMAGE} .
+    - docker push ${CONTAINER_IMAGE}
