@@ -16,6 +16,9 @@ build:
   artifacts:
     paths:
       - frontend/target
+      - client-service/target
+      - common/target
+      - item-service/target
   script:
     - mvn clean install -DskipTests
 
