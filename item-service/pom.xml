@@ -54,7 +54,6 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/junit/junit -->
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
@@ -88,7 +87,31 @@
 			            <CONTEXT_PATH>/test</CONTEXT_PATH>
 			        </environmentVariables>
 			    </configuration>
-			</plugin>			
+			</plugin>
+
+			<plugin>
+				<groupId>io.fabric8</groupId>
+				<artifactId>docker-maven-plugin</artifactId>
+				<version>0.33.0</version>
+				<configuration>
+					<images>
+						<image>
+							<alias>item-service</alias>
+							<name>bmorrise/${project.artifactId}:${project.version}</name>
+							<build>
+								<assembly>
+									<descriptorRef>artifact-with-dependencies</descriptorRef>
+								</assembly>
+								<contextDir>${project.basedir}/src/main/docker</contextDir>
+							</build>
+						</image>
+					</images>
+					<authConfig>
+						<username>bmorrise</username>
+						<password>0ba28797-2260-4dd2-a7d9-dc532b7b564a</password>
+					</authConfig>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 

@@ -26,7 +26,6 @@ spec:
     spec:
       containers:
         - name: client-service
-          image: client-service:latest
-          imagePullPolicy: Never
+          image: bmorrise/client-service:1.0-SNAPSHOT
           ports:
             - containerPort: 8080
