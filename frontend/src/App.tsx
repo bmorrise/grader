@@ -32,6 +32,7 @@ class App extends React.Component<IProps, IState> {
 
     return (
       <div className="App">
+        <h1>This is the update</h1>
         {(items.map(item => <ItemComponent key={item.id} item={item}/>))}
       </div>
     );
