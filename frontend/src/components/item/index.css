@@ -1,25 +1,39 @@
 .panel {
     text-align: left;
+    margin: 10px;  
+    background-color: #f7f7f7;  
+    padding: 10px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
 }
 
-.panel .header {
+.panel-body .header {
     display: flex;
 }
 
-.panel .header .title {
+.panel-body .header .title {
     font-size: 2em;
-    padding: 20px;
+    padding:  0 10px 0 10px;
     flex: 1;
 }
 
-.panel .header .grade {
-    padding: 20px;
+.panel .grade {
+    padding: 0 20px;
     font-size: 2em;
     color: #ffffff;
     background-color: #000000;
+    border-radius: 10px;
+    height: 90px;
+    text-align: center;
+    line-height: 90px;
 }
 
-.panel .body {
-    border: 1px solid #000000;
+.panel-body .body {
     padding: 10px;
+}
+
+.panel-body .footer {
+    padding: 10px;
+    font-size: .75em;
 }
