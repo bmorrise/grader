@@ -27,7 +27,7 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: bmorrise/frontend:1.0-SNAPSHOT
+          image: bmorrise/frontend:@IMAGE_VERSION@
           ports:
             - name: http
               containerPort: 80
