@@ -10,6 +10,10 @@
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>frontend</artifactId>
 
+	<properties>
+		<image.version>${project.version}</image.version>
+	</properties>
+
 	<build>
 		<plugins>
 			<plugin>
@@ -74,7 +78,7 @@
 					<images>
 						<image>
 							<alias>frontend</alias>
-							<name>bmorrise/${project.artifactId}:${project.version}</name>
+							<name>bmorrise/${project.artifactId}:${image.version}</name>
 							<build>
 								<assembly>
 									<inline>

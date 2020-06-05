@@ -1,5 +1,8 @@
 image: maven:3.3-jdk-8
 
+variables:
+  IMAGE_VERSION: ${CI_BUILD_REF_NAME}_${CI_BUILD_REF}
+
 stages:
   - build
   - deploy
@@ -7,7 +10,7 @@ stages:
 build:
   stage: build
   script:
-    - mvn clean package docker:build docker:push -DskipTests
+    - mvn clean package docker:build docker:push -DskipTests -Dimage.version=${IMAGE_VERSION}
 
 deploy:
   stage: deploy
@@ -25,7 +28,4 @@ deploy:
     - kubectl config set-context "$CI_PROJECT_ID" --cluster="$CI_PROJECT_ID" --user="$CI_PROJECT_ID" --namespace="$KUBE_NAMESPACE"
     - kubectl config use-context "$CI_PROJECT_ID"
     - kubectl get deployments
-    - kubectl apply -f mongo-deployment.yaml
-    - kubectl apply -f item-service/item-service-deployment.yaml
-    - kubectl apply -f client-service/client-service-deployment.yaml
-    - kubectl apply -f frontend/frontend-deployment.yaml
+    - ./deploy.sh ${IMAGE_VERSION}

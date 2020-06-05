@@ -27,7 +27,7 @@ spec:
     spec:
       containers:
         - name: item-service
-          image: bmorrise/item-service:1.0-SNAPSHOT
+          image: bmorrise/item-service:@IMAGE_VERSION@
           ports:
             - containerPort: 8080
           env:

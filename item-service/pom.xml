@@ -16,6 +16,7 @@
 
 	<properties>
 		<java.version>1.8</java.version>
+		<image.version>${project.version}</image.version>
 	</properties>
 
 	<dependencies>
@@ -97,7 +98,7 @@
 					<images>
 						<image>
 							<alias>item-service</alias>
-							<name>bmorrise/${project.artifactId}:${project.version}</name>
+							<name>bmorrise/${project.artifactId}:${image.version}</name>
 							<build>
 								<assembly>
 									<descriptorRef>artifact-with-dependencies</descriptorRef>
