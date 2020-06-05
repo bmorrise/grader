@@ -52,6 +52,13 @@ public class ItemController implements CommandLineRunner
 		item1.setGrade(8.2);
 		item1.setNotes("The package is sealed with no visible tears. The plastic is somewhat rough. The bottom right edge has very minor crumpling, but the other corners are sharp.");
 		
-		itemRepository.save(item1);
+		Item item2 = new Item();
+		item2.setName("Super Spike V-Ball");
+		item2.setStatus(Item.Status.COMPLETE);
+		item2.setCompleted(new Date());
+		item2.setGrade(6.4);
+		item2.setNotes("The package has no visible tears, but does have the price written on the plastic with marker. There are no visible crumpling on any of the edges");
+		
+		itemRepository.save(item2);
 	}
 }
