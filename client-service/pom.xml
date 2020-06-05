@@ -18,6 +18,7 @@
 		<spring-cloud-dependencies.version>Hoxton.SR1</spring-cloud-dependencies.version>
 		<spring.cloud.k8s.version>1.0.0.RELEASE</spring.cloud.k8s.version>
 		<dockerfile-maven-version>1.4.13</dockerfile-maven-version>
+		<docker.image.tag>${project.version}</docker.image.tag>
 	</properties>
 
 	<dependencyManagement>
@@ -115,7 +116,7 @@
 					<images>
 						<image>
 							<alias>client-service</alias>
-							<name>bmorrise/${project.artifactId}:${project.version}</name>
+							<name>bmorrise/${project.artifactId}:${docker.image.tag}</name>
 							<build>
 								<assembly>
 									<descriptorRef>artifact-with-dependencies</descriptorRef>

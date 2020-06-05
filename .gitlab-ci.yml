@@ -7,3 +7,24 @@ build:
   stage: build
   script:
     - mvn clean package docker:build docker:push -DskipTests
+
+deploy:
+  stage: deploy
+  image: dtzar/helm-kubectl
+  environment:
+    name: dev
+  script:
+    - echo CI_PROJECT_ID=$CI_PROJECT_ID
+    - echo KUBE_URL=$KUBE_URL
+    - echo KUBE_CA_PEM_FILE=$KUBE_CA_PEM_FILE
+    - echo KUBE_TOKEN=$KUBE_TOKEN
+    - echo KUBE_NAMESPACE=$KUBE_NAMESPACE
+    - kubectl config set-cluster "$CI_PROJECT_ID" --server="$KUBE_URL" --certificate-authority="$KUBE_CA_PEM_FILE"
+    - kubectl config set-credentials "$CI_PROJECT_ID" --token="$KUBE_TOKEN"
+    - kubectl config set-context "$CI_PROJECT_ID" --cluster="$CI_PROJECT_ID" --user="$CI_PROJECT_ID" --namespace="$KUBE_NAMESPACE"
+    - kubectl config use-context "$CI_PROJECT_ID"
+    - kubectl get deployments
+    - kubectl apply -f mongo-deployment.yaml
+    - kubectl apply -f item-service/item-service-deployment.yaml
+    - kubectl apply -f client-service/client-service-deployment.yaml
+    - kubectl apply -f frontend/frontend-deployment.yaml
