@@ -16,6 +16,7 @@ kind: Deployment
 metadata:
   name: frontend
 spec:
+  revisionHistoryLimit: 2
   selector:
       matchLabels:
         app: frontend
