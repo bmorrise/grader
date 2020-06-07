@@ -7,3 +7,4 @@ prepare:
   stage: prepare
   script:
     - echo "Building item-service"
+    - mvn clean install -DskipTests
