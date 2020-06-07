@@ -1,0 +1,9 @@
+image: maven:3.3-jdk-8
+
+stages:
+  - prepare
+
+prepare:
+  stage: prepare
+  script:
+    - echo "Building item-service"

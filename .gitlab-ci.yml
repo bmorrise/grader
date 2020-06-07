@@ -1,31 +1,52 @@
+#image: maven:3.3-jdk-8
+#
+#variables:
+#  IMAGE_VERSION: ${CI_BUILD_REF_NAME}_${CI_BUILD_REF}
+#
+#stages:
+#  - build
+#  - deploy
+#
+#build:
+#  stage: build
+#  script:
+#    - mvn clean package docker:build docker:push -DskipTests -Dimage.version=${IMAGE_VERSION}
+#
+#deploy:
+#  stage: deploy
+#  image: dtzar/helm-kubectl
+#  environment:
+#    name: dev
+#  script:
+#    - echo CI_PROJECT_ID=$CI_PROJECT_ID
+#    - echo KUBE_URL=$KUBE_URL
+#    - echo KUBE_CA_PEM_FILE=$KUBE_CA_PEM_FILE
+#    - echo KUBE_TOKEN=$KUBE_TOKEN
+#    - echo KUBE_NAMESPACE=$KUBE_NAMESPACE
+#    - kubectl config set-cluster "$CI_PROJECT_ID" --server="$KUBE_URL" --certificate-authority="$KUBE_CA_PEM_FILE"
+#    - kubectl config set-credentials "$CI_PROJECT_ID" --token="$KUBE_TOKEN"
+#    - kubectl config set-context "$CI_PROJECT_ID" --cluster="$CI_PROJECT_ID" --user="$CI_PROJECT_ID" --namespace="$KUBE_NAMESPACE"
+#    - kubectl config use-context "$CI_PROJECT_ID"
+#    - kubectl get deployments
+#    - ./deploy.sh ${IMAGE_VERSION}
+
 image: maven:3.3-jdk-8
 
-variables:
-  IMAGE_VERSION: ${CI_BUILD_REF_NAME}_${CI_BUILD_REF}
-
 stages:
-  - build
-  - deploy
+  - triggers
 
-build:
-  stage: build
-  script:
-    - mvn clean package docker:build docker:push -DskipTests -Dimage.version=${IMAGE_VERSION}
+trigger_client-service:
+  stage: triggers
+  trigger:
+    include: client-service/.gitlab-ci.yml
+  rules:
+    - changes:
+        - client-service/*
 
-deploy:
-  stage: deploy
-  image: dtzar/helm-kubectl
-  environment:
-    name: dev
-  script:
-    - echo CI_PROJECT_ID=$CI_PROJECT_ID
-    - echo KUBE_URL=$KUBE_URL
-    - echo KUBE_CA_PEM_FILE=$KUBE_CA_PEM_FILE
-    - echo KUBE_TOKEN=$KUBE_TOKEN
-    - echo KUBE_NAMESPACE=$KUBE_NAMESPACE
-    - kubectl config set-cluster "$CI_PROJECT_ID" --server="$KUBE_URL" --certificate-authority="$KUBE_CA_PEM_FILE"
-    - kubectl config set-credentials "$CI_PROJECT_ID" --token="$KUBE_TOKEN"
-    - kubectl config set-context "$CI_PROJECT_ID" --cluster="$CI_PROJECT_ID" --user="$CI_PROJECT_ID" --namespace="$KUBE_NAMESPACE"
-    - kubectl config use-context "$CI_PROJECT_ID"
-    - kubectl get deployments
-    - ./deploy.sh ${IMAGE_VERSION}
+trigger_item-service:
+  stage: triggers
+  trigger:
+    include: item-service/.gitlab-ci.yml
+  rules:
+    - changes:
+        - item-service/*
