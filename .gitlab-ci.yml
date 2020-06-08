@@ -1,7 +1,7 @@
 image: maven:3.3-jdk-8
 
 variables:
-  MAVEN_CLI_OPTS: "-s .m2/settings.xml --batch-mode"
+  MAVEN_CLI_OPTS: "--batch-mode"
   MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
   IMAGE_VERSION: ${CI_BUILD_REF_NAME}_${CI_BUILD_REF}
 
