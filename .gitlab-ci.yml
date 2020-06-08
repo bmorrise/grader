@@ -32,6 +32,13 @@
 
 image: maven:3.3-jdk-8
 
+cache:
+  paths:
+    - .m2/repository
+
+variables:
+  MAVEN_OPTS: "-Dmaven.repo.local=$CI_PROJECT_DIR/.m2/repository"
+
 stages:
   - common
   - build
@@ -39,12 +46,12 @@ stages:
 common:
   stage: common
   script:
-    - mvn -pl common clean install -DskipTests
+    - 'mvn $MAVEN_CLI_OPTS -pl common clean install -DskipTests'
 
 client-service:
   stage: build
   script:
-    - mvn -pl client-service clean install -DskipTests
+    - 'mvn $MAVEN_CLI_OPTS -pl client-service clean install -DskipTests'
 #  rules:
 #    - changes:
 #        - client-service/*
