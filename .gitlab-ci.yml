@@ -20,7 +20,7 @@ stages:
 static:
   stage: static
   script:
-    - mvn sonar:sonar -Dsonar.projectKey=grader -Dsonar.host.url=http://192.168.1.207:81 -Dsonar.login=6a8a3266c11d85a1785e631e12cc50d31f88dc57
+    - mvn clean package sonar:sonar -Dsonar.projectKey=grader -Dsonar.host.url=http://192.168.1.207:81 -Dsonar.login=6a8a3266c11d85a1785e631e12cc50d31f88dc57
 
 build:
   stage: build
