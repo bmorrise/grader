@@ -46,7 +46,7 @@ stages:
 client-service:
   stage: build
   script:
-    - 'mvn $MAVEN_CLI_OPTS -pl -am client-service clean install -DskipTests'
+    - 'mvn $MAVEN_CLI_OPTS -pl client-service -am clean install -DskipTests'
 #  rules:
 #    - changes:
 #        - client-service/*
@@ -54,7 +54,7 @@ client-service:
 item-service:
   stage: build
   script:
-    - 'mvn $MAVEN_CLI_OPTS -pl -am item-service clean install -DskipTests'
+    - 'mvn $MAVEN_CLI_OPTS -pl item-service -am clean install -DskipTests'
 #  rules:
 #    - changes:
 #        - client-service/*
