@@ -27,7 +27,7 @@ test:
     - mvn $MAVEN_CLI_OPTS test
 
 publish:
-  stage: build
+  stage: publish
   script:
     - mvn clean package docker:build docker:push -DskipTests -Dimage.version=${IMAGE_VERSION}
 
