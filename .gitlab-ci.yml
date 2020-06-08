@@ -33,12 +33,18 @@
 image: maven:3.3-jdk-8
 
 stages:
+  - common
   - build
+
+common:
+  stage: common
+  script:
+    - mvn -pl common clean install -DskipTests
 
 client-service:
   stage: build
   script:
-    - mvn -pl client-service -am clean install -DskipTests
+    - mvn -pl client-service clean install -DskipTests
 #  rules:
 #    - changes:
 #        - client-service/*
