@@ -1,60 +1,52 @@
-#image: maven:3.3-jdk-8
-#
-#variables:
-#  IMAGE_VERSION: ${CI_BUILD_REF_NAME}_${CI_BUILD_REF}
-#
-#stages:
-#  - build
-#  - deploy
-#
-#build:
-#  stage: build
-#  script:
-#    - mvn clean package docker:build docker:push -DskipTests -Dimage.version=${IMAGE_VERSION}
-#
-#deploy:
-#  stage: deploy
-#  image: dtzar/helm-kubectl
-#  environment:
-#    name: dev
-#  script:
-#    - echo CI_PROJECT_ID=$CI_PROJECT_ID
-#    - echo KUBE_URL=$KUBE_URL
-#    - echo KUBE_CA_PEM_FILE=$KUBE_CA_PEM_FILE
-#    - echo KUBE_TOKEN=$KUBE_TOKEN
-#    - echo KUBE_NAMESPACE=$KUBE_NAMESPACE
-#    - kubectl config set-cluster "$CI_PROJECT_ID" --server="$KUBE_URL" --certificate-authority="$KUBE_CA_PEM_FILE"
-#    - kubectl config set-credentials "$CI_PROJECT_ID" --token="$KUBE_TOKEN"
-#    - kubectl config set-context "$CI_PROJECT_ID" --cluster="$CI_PROJECT_ID" --user="$CI_PROJECT_ID" --namespace="$KUBE_NAMESPACE"
-#    - kubectl config use-context "$CI_PROJECT_ID"
-#    - kubectl get deployments
-#    - ./deploy.sh ${IMAGE_VERSION}
-
 image: maven:3.3-jdk-8
+
+variables:
+  MAVEN_CLI_OPTS: "-s .m2/settings.xml --batch-mode"
+  MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
+  IMAGE_VERSION: ${CI_BUILD_REF_NAME}_${CI_BUILD_REF}
 
 cache:
   paths:
-    - .m2/repository
-
-variables:
-  MAVEN_OPTS: "-Dmaven.repo.local=$CI_PROJECT_DIR/.m2/repository"
-  MAVEN_CLI_OPTS: "--batch-mode --errors --fail-at-end --show-version"
+    - .m2/repository/
+    - target/
 
 stages:
   - build
+  - test
+  - publish
+  - deploy
 
-client-service:
+build:
   stage: build
   script:
-    - 'mvn $MAVEN_CLI_OPTS -pl client-service -am clean install -DskipTests'
-#  rules:
-#    - changes:
-#        - client-service/*
+    - mvn $MAVEN_CLI_OPTS compile
 
-item-service:
+test:
+  stage: test
+  script:
+    - mvn $MAVEN_CLI_OPTS test
+
+publish:
   stage: build
   script:
-    - 'mvn $MAVEN_CLI_OPTS -pl item-service -am clean install -DskipTests'
-#  rules:
-#    - changes:
-#        - client-service/*
+    - mvn clean package docker:build docker:push -DskipTests -Dimage.version=${IMAGE_VERSION}
+
+deploy:
+  stage: deploy
+  image: dtzar/helm-kubectl
+  environment:
+    name: dev
+  only:
+    - master
+  script:
+    - echo CI_PROJECT_ID=$CI_PROJECT_ID
+    - echo KUBE_URL=$KUBE_URL
+    - echo KUBE_CA_PEM_FILE=$KUBE_CA_PEM_FILE
+    - echo KUBE_TOKEN=$KUBE_TOKEN
+    - echo KUBE_NAMESPACE=$KUBE_NAMESPACE
+    - kubectl config set-cluster "$CI_PROJECT_ID" --server="$KUBE_URL" --certificate-authority="$KUBE_CA_PEM_FILE"
+    - kubectl config set-credentials "$CI_PROJECT_ID" --token="$KUBE_TOKEN"
+    - kubectl config set-context "$CI_PROJECT_ID" --cluster="$CI_PROJECT_ID" --user="$CI_PROJECT_ID" --namespace="$KUBE_NAMESPACE"
+    - kubectl config use-context "$CI_PROJECT_ID"
+    - kubectl get deployments
+    - ./deploy.sh ${IMAGE_VERSION}
