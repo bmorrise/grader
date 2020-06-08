@@ -38,20 +38,23 @@ cache:
 
 variables:
   MAVEN_OPTS: "-Dmaven.repo.local=$CI_PROJECT_DIR/.m2/repository"
+  MAVEN_CLI_OPTS: "--batch-mode --errors --fail-at-end --show-version"
 
 stages:
-  - common
   - build
-
-common:
-  stage: common
-  script:
-    - 'mvn $MAVEN_CLI_OPTS -pl common clean install -DskipTests'
 
 client-service:
   stage: build
   script:
-    - 'mvn $MAVEN_CLI_OPTS -pl client-service clean install -DskipTests'
+    - 'mvn $MAVEN_CLI_OPTS -pl -am client-service clean install -DskipTests'
+#  rules:
+#    - changes:
+#        - client-service/*
+
+item-service:
+  stage: build
+  script:
+    - 'mvn $MAVEN_CLI_OPTS -pl -am item-service clean install -DskipTests'
 #  rules:
 #    - changes:
 #        - client-service/*
