@@ -38,7 +38,7 @@ stages:
 client-service:
   stage: build
   script:
-    - mvn -pl client-service clean install -DskipTests
+    - mvn -pl client-service -am clean install -DskipTests
   rules:
     - changes:
         - client-service/*
