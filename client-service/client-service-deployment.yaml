@@ -19,7 +19,7 @@ spec:
   selector:
       matchLabels:
         app: client-service
-  replicas: 2
+  replicas: 1
   strategy:
     type: RollingUpdate
     rollingUpdate:
