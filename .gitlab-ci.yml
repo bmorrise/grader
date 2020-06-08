@@ -33,20 +33,12 @@
 image: maven:3.3-jdk-8
 
 stages:
-  - triggers
+  - build
 
-trigger_client-service:
-  stage: triggers
-  trigger:
-    include: client-service/.gitlab-ci.yml
+client-service:
+  stage: build
+  script:
+    - mvn -pl client-service clean install -DskipTests
   rules:
     - changes:
         - client-service/*
-
-trigger_item-service:
-  stage: triggers
-  trigger:
-    include: item-service/.gitlab-ci.yml
-  rules:
-    - changes:
-        - item-service/*
