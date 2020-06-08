@@ -2,7 +2,7 @@ image: maven:3.3-jdk-8
 
 variables:
   MAVEN_CLI_OPTS: "--batch-mode"
-  MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
+  MAVEN_OPTS: "-Dmaven.repo.local=$CI_PROJECT_DIR/.m2/repository"
   IMAGE_VERSION: ${CI_BUILD_REF_NAME}_${CI_BUILD_REF}
 
 cache:
@@ -11,10 +11,16 @@ cache:
     - target/
 
 stages:
+  - static
   - build
   - test
   - publish
   - deploy
+
+static:
+  stage: static
+  script:
+    - mvn sonar:sonar -Dsonar.projectKey=grader -Dsonar.host.url=http://192.168.1.207:81 -Dsonar.login=6a8a3266c11d85a1785e631e12cc50d31f88dc57
 
 build:
   stage: build

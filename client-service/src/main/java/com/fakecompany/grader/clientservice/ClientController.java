@@ -20,9 +20,9 @@ public class ClientController
 		return itemClient.getItems();
 	}
 	
-//	@DeleteMapping(path = "items")
-//	public void deleteItem(@PathParam("id") String id)
-//	{
-//		itemClient.deleteItem(id);
-//	}
+	@DeleteMapping(path = "items")
+	public void deleteItem(@PathParam("id") String id)
+	{
+		itemClient.deleteItem(id);
+	}
 }
