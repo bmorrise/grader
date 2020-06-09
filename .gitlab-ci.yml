@@ -59,6 +59,7 @@ stages:
 #    - ./deploy.sh ${IMAGE_VERSION}
 
 e2e:
+  image: node:lts-alpine3.10
   stage: e2e
   only:
     - master
