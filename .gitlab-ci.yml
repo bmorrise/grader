@@ -11,48 +11,57 @@ cache:
     - target/
 
 stages:
-  - static
-  - build
-  - test
-  - publish
-  - deploy
+#  - static
+#  - build
+#  - test
+#  - publish
+#  - deploy
+  - e2e
+#
+#static:
+#  stage: static
+#  script:
+#    - mvn clean package sonar:sonar -Dsonar.projectKey=grader -Dsonar.host.url=http://192.168.1.207:81 -Dsonar.login=6a8a3266c11d85a1785e631e12cc50d31f88dc57
+#
+#build:
+#  stage: build
+#  script:
+#    - mvn $MAVEN_CLI_OPTS compile
+#
+#test:
+#  stage: test
+#  script:
+#    - mvn $MAVEN_CLI_OPTS test
+#
+#publish:
+#  stage: publish
+#  script:
+#    - mvn clean package docker:build docker:push -DskipTests -Dimage.version=${IMAGE_VERSION}
+#
+#deploy:
+#  stage: deploy
+#  image: dtzar/helm-kubectl
+#  environment:
+#    name: dev
+#  only:
+#    - master
+#  script:
+#    - echo CI_PROJECT_ID=$CI_PROJECT_ID
+#    - echo KUBE_URL=$KUBE_URL
+#    - echo KUBE_CA_PEM_FILE=$KUBE_CA_PEM_FILE
+#    - echo KUBE_TOKEN=$KUBE_TOKEN
+#    - echo KUBE_NAMESPACE=$KUBE_NAMESPACE
+#    - kubectl config set-cluster "$CI_PROJECT_ID" --server="$KUBE_URL" --certificate-authority="$KUBE_CA_PEM_FILE"
+#    - kubectl config set-credentials "$CI_PROJECT_ID" --token="$KUBE_TOKEN"
+#    - kubectl config set-context "$CI_PROJECT_ID" --cluster="$CI_PROJECT_ID" --user="$CI_PROJECT_ID" --namespace="$KUBE_NAMESPACE"
+#    - kubectl config use-context "$CI_PROJECT_ID"
+#    - kubectl get deployments
+#    - ./deploy.sh ${IMAGE_VERSION}
 
-static:
-  stage: static
-  script:
-    - mvn clean package sonar:sonar -Dsonar.projectKey=grader -Dsonar.host.url=http://192.168.1.207:81 -Dsonar.login=6a8a3266c11d85a1785e631e12cc50d31f88dc57
-
-build:
-  stage: build
-  script:
-    - mvn $MAVEN_CLI_OPTS compile
-
-test:
-  stage: test
-  script:
-    - mvn $MAVEN_CLI_OPTS test
-
-publish:
-  stage: publish
-  script:
-    - mvn clean package docker:build docker:push -DskipTests -Dimage.version=${IMAGE_VERSION}
-
-deploy:
-  stage: deploy
-  image: dtzar/helm-kubectl
-  environment:
-    name: dev
+e2e:
+  stage: e2e
   only:
     - master
   script:
-    - echo CI_PROJECT_ID=$CI_PROJECT_ID
-    - echo KUBE_URL=$KUBE_URL
-    - echo KUBE_CA_PEM_FILE=$KUBE_CA_PEM_FILE
-    - echo KUBE_TOKEN=$KUBE_TOKEN
-    - echo KUBE_NAMESPACE=$KUBE_NAMESPACE
-    - kubectl config set-cluster "$CI_PROJECT_ID" --server="$KUBE_URL" --certificate-authority="$KUBE_CA_PEM_FILE"
-    - kubectl config set-credentials "$CI_PROJECT_ID" --token="$KUBE_TOKEN"
-    - kubectl config set-context "$CI_PROJECT_ID" --cluster="$CI_PROJECT_ID" --user="$CI_PROJECT_ID" --namespace="$KUBE_NAMESPACE"
-    - kubectl config use-context "$CI_PROJECT_ID"
-    - kubectl get deployments
-    - ./deploy.sh ${IMAGE_VERSION}
+    - cd frontend
+    - npm e2e
