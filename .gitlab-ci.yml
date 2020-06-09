@@ -59,10 +59,10 @@ stages:
 #    - ./deploy.sh ${IMAGE_VERSION}
 
 e2e:
+  image: node:lts-alpine3.10
   stage: e2e
   only:
     - master
   script:
     - cd frontend
-    - mvn clean install
     - npm run-script e2e
