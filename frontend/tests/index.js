@@ -15,7 +15,7 @@ const assert = require('assert');
 		
 		const element = await driver.wait(until.elementLocated(By.className("panel")), 10000);
 		const elementText = await element.getText();
-		assert.strictEqual(elementText.includes("Super Mario"), false, "Super Mario Exists");
+		assert.strictEqual(elementText.includes("Super Mario"), true, "Super Mario Exists");
 	} catch (err) {
 		handleFailure(err, driver);
 	} finally {
