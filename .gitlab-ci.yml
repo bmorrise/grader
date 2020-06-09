@@ -65,4 +65,5 @@ e2e:
     - master
   script:
     - cd frontend
+    - npm install
     - npm run-script e2e
