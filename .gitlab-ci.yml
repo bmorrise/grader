@@ -64,6 +64,8 @@ e2e:
   only:
     - master
   script:
+    - echo $SELENIUM_URL
+    - echo $STAGING_URL
     - cd frontend
     - npm install
     - npm run-script e2e

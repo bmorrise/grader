@@ -4,11 +4,11 @@ const assert = require('assert');
 (async function example() {
 	let driver = await new Builder()
 			.forBrowser('chrome')
-			.usingServer('http://192.168.1.207:4444/wd/hub')
+			.usingServer(process.env.SELENIUM_URL)
 			.build();
 	
 	try {
-		await driver.get('http://192.168.1.205:3000/');
+		await driver.get(process.env.STAGING_URL);
 		await driver.getTitle().then(function(title) {
 			console.log("The title is: " + title)
 		});
