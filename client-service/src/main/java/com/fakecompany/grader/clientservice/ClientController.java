@@ -23,7 +23,7 @@ public class ClientController
 	}
 	
 	@GetMapping(path = "/item/{id}")
-	public List<Item> getItem(@PathVariable("id") String id)
+	public Item getItem(@PathVariable("id") String id)
 	{
 		return itemClient.getItem(id);
 	}
