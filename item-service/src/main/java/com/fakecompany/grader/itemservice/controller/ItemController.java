@@ -26,8 +26,12 @@ public class ItemController implements CommandLineRunner
 	}
 	
 	@GetMapping(path = "/item/{id}")
-	public Item getItem(@PathVariable("id") String id) {
-		return itemRepository.findById(id).orElse(null);
+	public Item getItem(@PathVariable("id") String id) throws Exception {
+		Item item = itemRepository.findById(id).orElse(null);
+		if (item == null) {
+			throw new Exception();
+		}
+		return item;
 	}
 	
 	@PostMapping(path = "/item")
