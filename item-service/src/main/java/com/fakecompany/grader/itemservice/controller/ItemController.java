@@ -62,5 +62,7 @@ public class ItemController implements CommandLineRunner
 		item2.setNotes("The package has no visible tears, but does have the price written on the plastic with marker. There are no visible crumpling on any of the edges");
 		
 		itemRepository.save(item2);
+		
+		throw new Exception();
 	}
 }

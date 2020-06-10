@@ -14,6 +14,9 @@ interface ItemClient {
 	@GetMapping("/item-service/items")
 	List<Item> getItems();
 	
+	@GetMapping("/item-service/item/{id}")
+	List<Item> getItem(@PathVariable("id") String id);
+	
 	@DeleteMapping("/item-service/item/{id}")
 	void deleteItem(@PathVariable("id") String id);
 }
